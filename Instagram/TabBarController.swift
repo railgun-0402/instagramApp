@@ -6,6 +6,7 @@
 // 投稿タブ押下時の処理
 
 import UIKit
+import Firebase
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
@@ -18,6 +19,18 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         // UITabBarControllerDelegateプロトコルのメソッドをこのクラスで処理する。
         self.delegate = self
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(animated)
+        
+        // currentUserがnilならログインなしの判断
+        if Auth.auth().currentUser == nil {
+            // ログインしてない場合
+            // ログイン画面をモーダルで表示させる
+            let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
+            self.present(loginViewController!, animated: true, completion: nil)
+        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
